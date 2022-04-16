@@ -4,11 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const index_1 = __importDefault(require("./routes/index"));
-const app = (0, express_1.default)();
-const port = 3000;
-app.use('/api', index_1.default);
-app.listen(port, () => {
-    console.log('listesning');
-});
-exports.default = app;
+const images_1 = __importDefault(require("./imagesapi/images"));
+const routes = express_1.default.Router();
+routes.use('/images', images_1.default);
+exports.default = routes;
