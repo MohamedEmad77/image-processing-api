@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "jasmine": "^4.1.0",
+    "jasmine-spec-reporter": "^7.0.0",
+    "node-modules": "^1.0.1"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "prettier": "prettier --config .prettierrc ./src/**/*.ts --write",
+    "build": "npx tsc",
+    "jasmine": "jasmine",
+    "test": "npm run build && npm run jasmine"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^4.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.3"
+  },
+  "name": "image-processing-api-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "mohamed emad",
+  "license": "ISC",
+  "description": ""
+}
