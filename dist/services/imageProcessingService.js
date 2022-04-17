@@ -35,30 +35,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const imageProcessingService = __importStar(require("../../services/imageProcessingService"));
-const path_1 = __importDefault(require("path"));
-//import resizeImage from '../../services/imageProcessingService';
-const images = express_1.default.Router();
-images.get('/', (req, res) => {
-    let width = '', height = '', filename = '';
-    if (req.query.width)
-        width = req.query.width;
-    if (req.query.height)
-        height = req.query.height;
-    if (req.query.filename)
-        filename = req.query.filename;
-    if (imageProcessingService.check_if_image_exist(filename, width, height)) {
-        const filepath = `assets/thumbs/${filename}_thumb_${width}_${height}.jpg`;
-        res.sendFile(path_1.default.join(__dirname, '../../../' + filepath));
+exports.resizeImage = exports.check_if_image_exist = void 0;
+const fs = __importStar(require("fs"));
+const sharp_1 = __importDefault(require("sharp"));
+const check_if_image_exist = (filename, width, height) => {
+    let flag = false;
+    fs.readdirSync('assets/thumbs').forEach((file) => {
+        if (file === `${filename}_thumb_${width}_${height}.jpg`) {
+            flag = true;
+            return flag;
+        }
+    });
+    return flag;
+};
+exports.check_if_image_exist = check_if_image_exist;
+const resizeImage = (filename, width, height) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, sharp_1.default)(`assets/full/${filename}.jpg`)
+            .resize({
+            width: width,
+            height: height,
+        })
+            .toFile(`assets/thumbs/${filename}_thumb_${width}_${height}.jpg`);
     }
-    else {
-        const resizeAndRender = () => __awaiter(void 0, void 0, void 0, function* () {
-            yield imageProcessingService.resizeImage(filename, Number.parseInt(width), Number.parseInt(height));
-            const filepath = `assets/thumbs/${filename}_thumb_${width}_${height}.jpg`;
-            res.sendFile(path_1.default.join(__dirname, '../../../' + filepath));
-        });
-        resizeAndRender();
+    catch (error) {
+        return error;
     }
 });
-exports.default = images;
+exports.resizeImage = resizeImage;
