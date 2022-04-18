@@ -38,7 +38,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const imageProcessingService = __importStar(require("../../services/imageProcessingService"));
 const path_1 = __importDefault(require("path"));
-//import resizeImage from '../../services/imageProcessingService';
 const images = express_1.default.Router();
 images.get('/', (req, res) => {
     let width = '';
@@ -55,6 +54,10 @@ images.get('/', (req, res) => {
         res.sendFile(path_1.default.join(__dirname, '../../../' + filepath));
     }
     else {
+        if (!imageProcessingService.check_if_image_exist(filename, width, height, 'assets/full')) {
+            res.send('Error occured please check parameters');
+            return;
+        }
         const resizeAndRender = () => __awaiter(void 0, void 0, void 0, function* () {
             yield imageProcessingService.resizeImage(filename, Number.parseInt(width), Number.parseInt(height));
             const filepath = `assets/thumbs/${filename}_thumb_${width}_${height}.jpg`;

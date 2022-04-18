@@ -38,38 +38,43 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resizeImage = exports.check_if_image_exist = void 0;
 const fs = __importStar(require("fs"));
 const sharp_1 = __importDefault(require("sharp"));
-const check_if_image_exist = (filename, width, height) => {
+const check_if_image_exist = (filename, width, height, dir = 'assets/thumbs') => {
     let flag;
     flag = false;
-    fs.readdirSync('assets/thumbs').forEach((file) => {
-        if (file === `${filename}_thumb_${width}_${height}.jpg`) {
-            flag = true;
-            return flag;
-        }
-    });
+    if (dir === 'assets/thumbs') {
+        fs.readdirSync(dir).forEach((file) => {
+            if (file === `${filename}_thumb_${width}_${height}.jpg`) {
+                flag = true;
+                return flag;
+            }
+        });
+    }
+    else if (dir === 'assets/full') {
+        fs.readdirSync(dir).forEach((file) => {
+            if (file === `${filename}.jpg`) {
+                flag = true;
+                return flag;
+            }
+        });
+    }
     return flag;
 };
 exports.check_if_image_exist = check_if_image_exist;
 const resizeImage = (filename, width, height) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const image = yield (0, sharp_1.default)(`assets/full/${filename}.jpg`)
-            .resize({
-            width: width,
-            height: height,
-        })
-            .toFile(`assets/thumbs/${filename}_thumb_${width}_${height}.jpg`);
-        const imageInterface = {
-            format: image.format,
-            width: image.width,
-            height: image.height,
-            channels: image.channels,
-            premultiplied: image.premultiplied,
-            size: image.size,
-        };
-        return imageInterface;
-    }
-    catch (error) {
-        throw new Error();
-    }
+    const image = yield (0, sharp_1.default)(`assets/full/${filename}.jpg`)
+        .resize({
+        width: width,
+        height: height,
+    })
+        .toFile(`assets/thumbs/${filename}_thumb_${width}_${height}.jpg`);
+    const imageInterface = {
+        format: image.format,
+        width: image.width,
+        height: image.height,
+        channels: image.channels,
+        premultiplied: image.premultiplied,
+        size: image.size,
+    };
+    return imageInterface;
 });
 exports.resizeImage = resizeImage;

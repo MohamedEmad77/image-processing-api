@@ -32,7 +32,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-//import jasmine from 'jasmine';
 const imageProcessingService = __importStar(require("../services/imageProcessingService"));
 describe('testing check_if_image_exist function', () => {
     it('returns true as image exist', () => {
