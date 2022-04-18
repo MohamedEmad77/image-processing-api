@@ -8,7 +8,6 @@ const index_1 = __importDefault(require("./routes/index"));
 const app = (0, express_1.default)();
 const port = 3000;
 app.use('/api', index_1.default);
-app.use(express_1.default.static('public'));
 app.listen(port, () => {
     console.log('listesning');
 });

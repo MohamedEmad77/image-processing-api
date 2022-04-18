@@ -17,7 +17,7 @@ const index_1 = __importDefault(require("../index"));
 const request = (0, supertest_1.default)(index_1.default);
 describe('endpoint testing', () => {
     it('response staus is 200', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield request.get('/api/images');
+        const response = yield request.get('/api/images?filename=fjord&width=50&height=50');
         expect(response.status).toBe(200);
     }));
 });

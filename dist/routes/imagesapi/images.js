@@ -41,7 +41,9 @@ const path_1 = __importDefault(require("path"));
 //import resizeImage from '../../services/imageProcessingService';
 const images = express_1.default.Router();
 images.get('/', (req, res) => {
-    let width = '', height = '', filename = '';
+    let width = '';
+    let height = '';
+    let filename = '';
     if (req.query.width)
         width = req.query.width;
     if (req.query.height)

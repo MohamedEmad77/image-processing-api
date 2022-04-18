@@ -31,45 +31,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resizeImage = exports.check_if_image_exist = void 0;
-const fs = __importStar(require("fs"));
-const sharp_1 = __importDefault(require("sharp"));
-const check_if_image_exist = (filename, width, height) => {
-    let flag;
-    flag = false;
-    fs.readdirSync('assets/thumbs').forEach((file) => {
-        if (file === `${filename}_thumb_${width}_${height}.jpg`) {
-            flag = true;
-            return flag;
-        }
+//import jasmine from 'jasmine';
+const imageProcessingService = __importStar(require("../services/imageProcessingService"));
+describe('testing check_if_image_exist function', () => {
+    it('returns true as image exist', () => {
+        const filename = 'fjord';
+        const width = '50';
+        const height = '50';
+        expect(imageProcessingService.check_if_image_exist(filename, width, height))
+            .toBeTrue;
     });
-    return flag;
-};
-exports.check_if_image_exist = check_if_image_exist;
-const resizeImage = (filename, width, height) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const image = yield (0, sharp_1.default)(`assets/full/${filename}.jpg`)
-            .resize({
-            width: width,
-            height: height,
-        })
-            .toFile(`assets/thumbs/${filename}_thumb_${width}_${height}.jpg`);
-        const imageInterface = {
-            format: image.format,
-            width: image.width,
-            height: image.height,
-            channels: image.channels,
-            premultiplied: image.premultiplied,
-            size: image.size,
-        };
-        return imageInterface;
-    }
-    catch (error) {
-        throw new Error();
-    }
+    it('returns false as image does not exist', () => {
+        const filename = 'fjord';
+        const width = '5000';
+        const height = '5000';
+        expect(imageProcessingService.check_if_image_exist(filename, width, height))
+            .toBeFalse;
+    });
+    it('returns false as image does not exist', () => {
+        const filename = 'wrongname';
+        const width = '5000';
+        const height = '5000';
+        expect(imageProcessingService.check_if_image_exist(filename, width, height))
+            .toBeFalse;
+    });
 });
-exports.resizeImage = resizeImage;
+describe('testing resize function', () => {
+    it('resizes image with 700 width and 450 height', () => __awaiter(void 0, void 0, void 0, function* () {
+        const filename = 'fjord';
+        const width = 700;
+        const height = 450;
+        const image = yield imageProcessingService.resizeImage(filename, width, height);
+        expect(image.width).toEqual(700);
+        expect(image.height).toEqual(450);
+    }));
+});
