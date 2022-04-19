@@ -1,13 +1,17 @@
 import express from 'express';
 import * as imageProcessingService from '../../services/imageProcessingService';
 import path from 'path';
+import check_height_and_width from '../../services/validationService';
 
 const images = express.Router();
 
-images.get('/', (req, res) => {
-  let width = '';
-  let height = '';
-  let filename = '';
+images.get('/', (req, res): void => {
+  let width: string;
+  width = '';
+  let height: string;
+  height = '';
+  let filename: string;
+  filename = '';
   if (req.query.width) width = req.query.width as string;
   if (req.query.height) height = req.query.height as string;
   if (req.query.filename) filename = req.query.filename as string;
@@ -21,7 +25,8 @@ images.get('/', (req, res) => {
         width,
         height,
         'assets/full'
-      )
+      ) ||
+      !check_height_and_width(width, height)
     ) {
       res.send('Error occured please check parameters');
       return;

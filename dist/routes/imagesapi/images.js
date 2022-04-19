@@ -38,11 +38,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const imageProcessingService = __importStar(require("../../services/imageProcessingService"));
 const path_1 = __importDefault(require("path"));
+const validationService_1 = __importDefault(require("../../services/validationService"));
 const images = express_1.default.Router();
 images.get('/', (req, res) => {
-    let width = '';
-    let height = '';
-    let filename = '';
+    let width;
+    width = '';
+    let height;
+    height = '';
+    let filename;
+    filename = '';
     if (req.query.width)
         width = req.query.width;
     if (req.query.height)
@@ -54,7 +58,8 @@ images.get('/', (req, res) => {
         res.sendFile(path_1.default.join(__dirname, '../../../' + filepath));
     }
     else {
-        if (!imageProcessingService.check_if_image_exist(filename, width, height, 'assets/full')) {
+        if (!imageProcessingService.check_if_image_exist(filename, width, height, 'assets/full') ||
+            !(0, validationService_1.default)(width, height)) {
             res.send('Error occured please check parameters');
             return;
         }

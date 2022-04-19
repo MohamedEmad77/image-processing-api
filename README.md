@@ -2,13 +2,14 @@ To make projects works :
 1- Install node js.
 2- In project directory run : npm install
 3- In project directory run : npm run build
-4- In project directory run : node dist/index.js
+4- In project directory run : npm run start
 -------------------------
 Scripts :
-1- npm run test (build project and run tests)
-2- npm run prettier
-3- npm run lint
-4- npm run build
+1- npm run start (script to run application)
+2- npm run test (build project and run tests)
+3- npm run prettier
+4- npm run lint
+5- npm run build
 
 Endpoint example : 
 
